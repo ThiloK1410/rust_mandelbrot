@@ -2,6 +2,7 @@ mod complex_number;
 mod mandelbrot_handle;
 
 
+use macroquad::miniquad::KeyCode::Space;
 use macroquad::prelude::*;
 use macroquad::prelude::KeyCode::{Escape, };
 use macroquad::prelude::MouseButton;
@@ -21,7 +22,7 @@ fn get_conf() -> Conf {
         window_width: 1000,
         window_height: 800,
         high_dpi: false,
-        fullscreen: false,
+        fullscreen: true,
         sample_count: 0,
         window_resizable: false,
         icon: None,
@@ -45,6 +46,11 @@ async fn main() {
 
         if is_mouse_button_down(MouseButton::Right) {
             zoom_mode = 0
+        }
+
+        if is_key_down(Space) {
+            mandelbrot_handle = Mandelbrot::new();
+            texture = Texture2D::from_rgba8(screen_width() as u16, screen_height() as u16, &mandelbrot_handle.get_texture_buffer());
         }
 
         match zoom_mode {

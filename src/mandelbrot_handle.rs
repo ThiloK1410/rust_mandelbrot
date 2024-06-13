@@ -1,7 +1,8 @@
+use std::cmp::min;
 use macroquad::color::{BLACK, PURPLE, WHITE};
 use macroquad::math::{Vec2};
 use macroquad::miniquad::window::screen_size;
-use macroquad::prelude::{BLUE, Color, GREEN, RED, screen_width, YELLOW};
+use macroquad::prelude::{BLUE, Color, GREEN, ORANGE, RED, screen_width, YELLOW};
 use macroquad::window::screen_height;
 use crate::complex_number::CNumber;
 use crate::SCALE;
@@ -72,11 +73,11 @@ impl Mandelbrot {
     }
 
     pub fn interpolate_color(x: f64) -> Color {
-        let colors = [BLACK, BLUE, PURPLE, RED, GREEN, YELLOW, WHITE];
+        let colors = [BLACK, BLUE, PURPLE, RED, ORANGE, GREEN, YELLOW, WHITE];
         let len = colors.len() as f64 - 1f64;
         let start_color = (x*len) as usize;
         let color_1 = colors[start_color];
-        let color_2 = colors[start_color+1];
+        let color_2 = colors[min(start_color+1, len as usize)];
         let factor = x*len - start_color as f64;
         Color::new(
             color_1.r*(1f32-factor as f32) + color_2.r*factor as f32,

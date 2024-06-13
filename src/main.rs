@@ -43,6 +43,10 @@ async fn main() {
 
         if is_key_down(Escape) {break}
 
+        if is_mouse_button_down(MouseButton::Right) {
+            zoom_mode = 0
+        }
+
         match zoom_mode {
             0 => {
                 if is_mouse_button_pressed(MouseButton::Left) {
@@ -73,7 +77,8 @@ async fn main() {
 
         draw_texture(&texture, 0f32, 0f32, WHITE);
         if zoom_mode==1 {
-            zoom_corner_2 = Vec2::from(mouse_position());
+            let screen_ratio = screen_height() / screen_width();
+            zoom_corner_2 = Vec2::new(mouse_position().0, (mouse_position().0-zoom_corner_1.x)*screen_ratio+ zoom_corner_1.y);
             draw_rectangle_lines(
                 zoom_corner_1.x,
                 zoom_corner_1.y,
